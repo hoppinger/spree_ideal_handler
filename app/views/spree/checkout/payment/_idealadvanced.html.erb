@@ -1,0 +1,11 @@
+<% param_prefix = "payment_source[#{payment_method.id}]" %>
+
+<% payment_method.bank_list.each do |country| %>
+  <strong><%= country[:country] %></strong>
+  <% country[:issuers].each do |issuer| %>
+    <label>
+      <%= radio_button_tag "#{param_prefix}[bank_id]", issuer[:bic] %>
+      <%= issuer[:name] %>
+    </label>
+  <% end %>
+<% end %>
