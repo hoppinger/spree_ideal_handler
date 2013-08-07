@@ -26,19 +26,20 @@ module SpreeIdealHandler
         Ideal::Gateway.environment = :test
       end
 
-      # Other banks preloaded are :abnamro and :rabobank
-      Ideal::Gateway.acquirer = :ing 
-      Ideal::Gateway.merchant_id = Figaro.env.ideal_merchant_id
+      if Figaro.env.respond_to? :ideal_merchant_id
+        # Other banks preloaded are :abnamro and :rabobank
+        Ideal::Gateway.acquirer = :ing 
+        Ideal::Gateway.merchant_id = Figaro.env.ideal_merchant_id
 
-      # Maybe you'd like another location
-      Ideal::Gateway.passphrase = Figaro.env.ideal_passphrase
-      Ideal::Gateway.private_key_file         = File.join(Figaro.env.ideal_keys_path, 'private_key.pem')
-      Ideal::Gateway.private_certificate_file = File.join(Figaro.env.ideal_keys_path, 'private_certificate.cer')
-      Ideal::Gateway.ideal_certificate_file   = File.join(Figaro.env.ideal_keys_path, 'ideal.cer')
+        # Maybe you'd like another location
+        Ideal::Gateway.passphrase = Figaro.env.ideal_passphrase
+        Ideal::Gateway.private_key_file         = File.join(Figaro.env.ideal_keys_path, 'private_key.pem')
+        Ideal::Gateway.private_certificate_file = File.join(Figaro.env.ideal_keys_path, 'private_certificate.cer')
+        Ideal::Gateway.ideal_certificate_file   = File.join(Figaro.env.ideal_keys_path, 'ideal.cer')
 
-      SpreeIdealHandler::Config = SpreeIdealHandler::Configuration.new
-      SpreeIdealHandler::Config[:ideal_confirm_url] = Figaro.env.ideal_confirm_url
-
+        SpreeIdealHandler::Config = SpreeIdealHandler::Configuration.new
+        SpreeIdealHandler::Config[:ideal_confirm_url] = Figaro.env.ideal_confirm_url
+      end
     end
 
     config.to_prepare &method(:activate).to_proc
