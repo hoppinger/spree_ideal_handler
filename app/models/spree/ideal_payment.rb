@@ -60,7 +60,7 @@ module Spree
 
       entrance_code = generate_entrance_code
       
-      response = Ideal::Gateway.new.setup_purchase(amount, {
+      response = Ideal::Gateway.new.setup_purchase("%.2f" % [amount/100.0], {
         return_url: SpreeIdealHandler::Config[:ideal_confirm_url],
         issuer_id: bank_id,
         order_id: order.number,
