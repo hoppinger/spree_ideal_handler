@@ -22,7 +22,9 @@ module SpreeIdealHandler
     end
 
     initializer "spree.spree_ideal_handler.ideal" do |app|
-      unless Rails.env.production?
+      if Rails.env.production?
+        Ideal::Gateway.environment = :live
+      else
         Ideal::Gateway.environment = :test
       end
 
