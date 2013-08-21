@@ -28,7 +28,10 @@ module Spree
         return redirect_to order_url(order)
       end
 
-      ideal_payment.update_state
+      begin
+        ideal_payment.update_state
+      rescue; end
+      
       unless ideal_payment.success?
         flash[:error] = "iDEAL betaling is niet gelukt of afgebroken. U kunt de bestelling via een bankoverschrijving voldoen."
         session[:order_id] = nil
